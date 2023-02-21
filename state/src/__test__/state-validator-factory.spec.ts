@@ -1,7 +1,7 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 import test, { type ExecutionContext } from "ava";
 import * as spec from "../state-validator-factory";
-import * as t from "io-ts";
+import * as t from "zod";
 import * as stateSpec from "../spec";
 import type * as tyras from "@ty-ras/data-backend";
 import type * as tyrasCommon from "@ty-ras/data";
@@ -44,11 +44,11 @@ const validateOneStateSpec = <
 const factory = spec.createStateValidatorFactory({
   userId: {
     isAuthenticationProperty: true,
-    validation: t.string,
+    validation: t.string(),
   },
   database: {
     isAuthenticationProperty: false,
-    validation: t.number,
+    validation: t.number(),
   },
 });
 
@@ -182,7 +182,7 @@ test("Validate that factory works for oneOf matcher", (c) => {
 test("Validate that factory works for allOf matcher", (c) => {
   c.plan(2);
   const manyFactory = spec.createStateValidatorFactory({
-    many: { isAuthenticationProperty: false, validation: t.array(t.string) },
+    many: { isAuthenticationProperty: false, validation: t.array(t.string()) },
   });
   const { validator } = manyFactory({
     many: { match: stateSpec.MATCH_ALL_OF, values: ["one", "two"] },
