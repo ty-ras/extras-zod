@@ -43,7 +43,7 @@ const validation = t.object({
 // Acquire configuration
 export const config = configuration.validateFromStringifiedJSONOrThrow(
   validation,
-  process.env["MY_BE_CONFIG"]),
+  process.env["MY_BE_CONFIG"],
 );
 // The compile-time type of 'config' is now:
 // {
