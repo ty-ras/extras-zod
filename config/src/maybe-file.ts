@@ -6,7 +6,7 @@ import * as fs from "fs/promises";
  * @param stringValue String value which will be interpreted as inline JSON or path to file containing JSON.
  * @returns A task which either contains error, or string.
  */
-export const getJSONStringValueFromMaybeStringWhichIsJSONOrFilename = async (
+export const getJSONStringValueFromStringWhichIsJSONOrFilename = async (
   stringValue: string,
 ): Promise<string> => {
   // Check the string contents - should we treat it as JSON string or path to file?
@@ -23,7 +23,7 @@ export const getJSONStringValueFromMaybeStringWhichIsJSONOrFilenameFromEnvVar =
         `The "${envVarName}" env variable must contain non-empty string.`,
       );
     }
-    return await getJSONStringValueFromMaybeStringWhichIsJSONOrFilename(
+    return await getJSONStringValueFromStringWhichIsJSONOrFilename(
       maybeNonEmpty.data,
     );
   };

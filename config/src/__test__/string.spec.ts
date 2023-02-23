@@ -39,7 +39,7 @@ test("Validate that readJSONStringToValueOrThrow works correctly", (c) => {
   c.throws(() => validator(""), { instanceOf: Error });
   // If string but not parseable to JSON, the JSON.parse will throw
   c.throws(() => validator("  "), { instanceOf: Error });
-  // When JSON string but doesn't pass validation, IO-TS error is thrown
+  // When JSON string but doesn't pass validation, Zod error is thrown
   c.throws(() => validator("123"), { instanceOf: Error });
   // Otherwise, is success
   c.deepEqual(validator('"hello"'), "hello");

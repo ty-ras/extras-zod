@@ -9,18 +9,18 @@ The strings are parsed as necessary and then validated at runtime using [`zod`](
 
 ```ts
 import { function as F } from "fp-ts";
-import * as t from "io-ts";
-import { configuration } from "@ty-ras-extras/frontend-io-ts";
-// Or, if not using bundled libraries: import * as configuration from "@ty-ras-extras/config/string";
+import * as t from "zod";
+import { configuration } from "@ty-ras-extras/frontend-zod";
+// Or, if not using bundled libraries: import * as configuration from "@ty-ras-extras/config-zod/string";
 
 // Define runtime validation of configuration
-const validation = t.type({
+const validation = t.object({
   someStringProperty: t.string,
 });
 // Acquire configuration
-export const config = F.pipe(
-  import.meta.env["MY_FE_CONFIG"], // Or, if webpack: process.env["MY_FE_CONFIG"],
-  configuration.validateFromStringifiedJSONOrThrow(validation),
+export const config = configuration.validateFromStringifiedJSONOrThrow(
+  validation,
+  import.meta.env["MY_FE_CONFIG"], // Or, if webpack: process.env["MY_FE_CONFIG"]),
 );
 // The compile-time type of 'config' is now:
 // {
@@ -32,18 +32,18 @@ export const config = F.pipe(
 For situations where environment variable is always serialized JSON:
 ```ts
 import { function as F } from "fp-ts";
-import * as t from "io-ts";
-import { configuration } from "@ty-ras-extras/backend-io-ts";
-// Or, if not using bundled libraries: import * as configuration from "@ty-ras-extras/config";
+import * as t from "zod";
+import { configuration } from "@ty-ras-extras/backend-zod";
+// Or, if not using bundled libraries: import * as configuration from "@ty-ras-extras/config-zod";
 
 // Define runtime validation of configuration
-const validation = t.type({
+const validation = t.object({
   someStringProperty: t.string,
 });
 // Acquire configuration
-export const config = F.pipe(
-  process.env["MY_BE_CONFIG"],
-  configuration.validateFromStringifiedJSONOrThrow(validation),
+export const config = configuration.validateFromStringifiedJSONOrThrow(
+  validation,
+  process.env["MY_BE_CONFIG"]),
 );
 // The compile-time type of 'config' is now:
 // {
@@ -54,19 +54,20 @@ export const config = F.pipe(
 For situations where environment variable is either serialized JSON or a path to file containing serialized JSON:
 ```ts
 import { function as F } from "fp-ts";
-import * as t from "io-ts";
-import { configuration } from "@ty-ras-extras/backend-io-ts";
-// Or, if not using bundled libraries: import * as configuration from "@ty-ras-extras/config";
+import * as t from "zod";
+import { configuration } from "@ty-ras-extras/backend-zod";
+// Or, if not using bundled libraries: import * as configuration from "@ty-ras-extras/config-zod";
 
 // Define runtime validation of configuration
-const validation = t.type({
+const validation = t.object({
   someStringProperty: t.string,
 });
 // Acquire configuration
-export const acquireConfiguration = async () => await F.pipe(
-  process.env["MY_BE_CONFIG"],
-  configuration.getJSONStringValueFromStringWhichIsJSONOrFilename(validation),
-  configuration.validateFromStringifiedJSONOrThrow(validation)
+export const acquireConfiguration = async () => configuration.validateFromStringifiedJSONOrThrow(
+  validation,
+  await configuration.getJSONStringValueFromStringWhichIsJSONOrFilename(
+    process.env["MY_BE_CONFIG"]
+  )
 );
 // The compile-time type of 'acquireConfiguration' is now:
 // () => Promise<{
