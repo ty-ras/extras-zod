@@ -8,7 +8,6 @@ The strings are parsed as necessary and then validated at runtime using [`zod`](
 # Using in Frontend
 
 ```ts
-import { function as F } from "fp-ts";
 import * as t from "zod";
 import { configuration } from "@ty-ras-extras/frontend-zod";
 // Or, if not using bundled libraries: import * as configuration from "@ty-ras-extras/config-zod/string";
@@ -31,7 +30,6 @@ export const config = configuration.validateFromStringifiedJSONOrThrow(
 # Using in Backend
 For situations where environment variable is always serialized JSON:
 ```ts
-import { function as F } from "fp-ts";
 import * as t from "zod";
 import { configuration } from "@ty-ras-extras/backend-zod";
 // Or, if not using bundled libraries: import * as configuration from "@ty-ras-extras/config-zod";
@@ -53,7 +51,6 @@ export const config = configuration.validateFromStringifiedJSONOrThrow(
 
 For situations where environment variable is either serialized JSON or a path to file containing serialized JSON:
 ```ts
-import { function as F } from "fp-ts";
 import * as t from "zod";
 import { configuration } from "@ty-ras-extras/backend-zod";
 // Or, if not using bundled libraries: import * as configuration from "@ty-ras-extras/config-zod";
