@@ -35,7 +35,10 @@ jobs:
   build_and_test:
     strategy:
       matrix:
-        dir: [ ]
+        dir:
+        - config
+        - state
+        - typed-sql
     runs-on: ubuntu-latest
     name: Build and test ${{ matrix.dir }}
     steps:
