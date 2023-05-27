@@ -6,7 +6,7 @@ import type * as t from "zod";
 import * as tyras from "@ty-ras/data";
 
 /**
- * Constructs {@link StatePropertyValidation} objects from given native `io-ts` validators.
+ * Constructs {@link StatePropertyValidation} objects from given native `zod` validators.
  * @param authenticated The validators for properties related to authenticated user (e.g. user ID, email, etc).
  * @param other The validators for properties related to internal things (e.g. DB connection pool, etc).
  * @returns The full state validation as an object with values being {@link StatePropertyValidation}, with given validators combined, and their {@link StatePropertyValidation#isAuthenticatedProperty} set appropriately.
