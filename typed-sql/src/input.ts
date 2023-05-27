@@ -16,7 +16,7 @@ import * as errors from "./errors";
  * @see SQLQueryInformation
  * @example
  * ```ts
- * import * as sql from "@ty-ras-extras/typed-sql-io-ts";
+ * import * as sql from "@ty-ras-extras/typed-sql-zod";
  *
  * const info = sql.prepareSQL`SELECT * FROM table;`;
  * // Info will be of type `SQLQueryInformation<void>`.
@@ -34,8 +34,8 @@ export function prepareSQL(
  * @see SQLQueryInformation
  * @example
  * ```ts
- * import * as sql from "@ty-ras-extras/typed-sql-io-ts";
- * import * as t from "io-ts";
+ * import * as sql from "@ty-ras-extras/typed-sql-zod";
+ * import * as t from "zod";
  *
  * const info = sql.prepareSQL`SELECT * FROM table WHERE column = ${sql.param("column", t.string())}`;
  * // Info will be of type `SQLQueryInformation<{ column: string }>
@@ -60,8 +60,8 @@ export function prepareSQL<
  * @see SQLQueryInformation
  * @example
  * ```ts
- * import * as sql from "@ty-ras-extras/typed-sql-io-ts";
- * import * as t from "io-ts";
+ * import * as sql from "@ty-ras-extras/typed-sql-zod";
+ * import * as t from "zod";
  *
  * const info = sql.prepareSQL`SELECT * FROM table WHERE column = ${sql.param("column", t.string())}`;
  * // Info will be of type `SQLQueryInformation<{ column: string }>
@@ -128,7 +128,7 @@ export function prepareSQL<
 }
 
 /**
- * This is auxiliary type used by {@link prepareSQL} to convert an array of {@link parameters.SQLTemplateParameter} into an object with named properties of `io-ts` validated types.
+ * This is auxiliary type used by {@link prepareSQL} to convert an array of {@link parameters.SQLTemplateParameter} into an object with named properties of `zod` validated types.
  * The tuple reducer idea originally spotted from [StackOverflow](https://stackoverflow.com/questions/69085499/typescript-convert-tuple-type-to-object).
  */
 export type SQLParameterReducer<
