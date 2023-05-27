@@ -1,7 +1,8 @@
-/* eslint-disable sonarjs/no-duplicate-string */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/**
+ * @file This file contains unit tests for functionality in file `../input.ts`.
+ */
+
+/* eslint-disable sonarjs/no-duplicate-string, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any */
 import test from "ava";
 import * as spec from "../input";
 import * as parameters from "../parameters";
@@ -58,7 +59,7 @@ test("Validate that execution works for SQL with parameters", async (c) => {
   const mockQueryResult = ["returnedRow"];
   const { seenParameters, usingMockedClient } =
     common.createMockedClientProvider([mockQueryResult]);
-  const idParameter = parameters.parameter("id", t.string());
+  const idParameter = parameters.param("id", t.string());
   const executor =
     spec.prepareSQL`SELECT payload FROM things WHERE id = ${idParameter}`(
       usingMockedClient,
@@ -91,7 +92,7 @@ test("Validate that execution works for SQL with raw fragments and parameters mi
   const mockQueryResult = ["returnedRow"];
   const { seenParameters, usingMockedClient } =
     common.createMockedClientProvider([mockQueryResult]);
-  const idParameter = parameters.parameter("id", t.string());
+  const idParameter = parameters.param("id", t.string());
   const executor = spec.prepareSQL`SELECT ${parameters.raw(
     "payload",
   )} FROM things WHERE id = ${idParameter}`(usingMockedClient);
@@ -120,10 +121,10 @@ test("Validate that passing invalid parameters to prepareSQL throws correct erro
   c.plan(2);
   c.throws(
     () =>
-      spec.prepareSQL`SELECT ${parameters.parameter(
+      spec.prepareSQL`SELECT ${parameters.param(
         "duplicate",
         t.string(),
-      )}, ${parameters.parameter("duplicate", t.number())}`,
+      )}, ${parameters.param("duplicate", t.number())}`,
     {
       instanceOf: errors.DuplicateSQLParameterNameError,
     },
@@ -138,7 +139,7 @@ test("Validate that invalid query input parameters are detected", async (c) => {
   const mockQueryResult = ["returnedRow"];
   const { seenParameters, usingMockedClient } =
     common.createMockedClientProvider([mockQueryResult]);
-  const idParameter = parameters.parameter("id", t.string());
+  const idParameter = parameters.param("id", t.string());
   const executor =
     spec.prepareSQL`SELECT payload FROM things WHERE id = ${idParameter}`(
       usingMockedClient,
@@ -165,10 +166,7 @@ test("Validate that duplicate parameters work ", async (c) => {
   const mockQueryResult = ["returnedRow"];
   const { seenParameters, usingMockedClient } =
     common.createMockedClientProvider([mockQueryResult]);
-  const sameParameterReferencedTwice = parameters.parameter(
-    "param",
-    t.string(),
-  );
+  const sameParameterReferencedTwice = parameters.param("param", t.string());
   const executor =
     spec.prepareSQL`SELECT value FROM table WHERE one_property = ${sameParameterReferencedTwice} OR another_property = ${sameParameterReferencedTwice}`(
       usingMockedClient,
