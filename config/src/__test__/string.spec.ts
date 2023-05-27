@@ -1,3 +1,7 @@
+/**
+ * @file This file contains unit tests for functionality in file `../string.ts`.
+ */
+
 import test from "ava";
 import * as t from "zod";
 import * as spec from "../string";

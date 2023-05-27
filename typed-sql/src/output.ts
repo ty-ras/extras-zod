@@ -1,8 +1,17 @@
+/**
+ * @file This file contains code related to validating output of {@link input.SQLQueryExecutor}.
+ */
+
 /* eslint-disable @typescript-eslint/ban-types */
 import * as t from "zod";
 import type * as query from "./input";
 import * as errors from "./errors";
 
+/**
+ * Creates `zod` validator which ensures that input array of rows contains exactly one row with given shape.
+ * @param singleRow The `zod` validator for row object.
+ * @returns The `zod` validator which takes an array of rows as input, and ensures that array contains exactly one element. That element is then validated using given validator.
+ */
 export const one = <TValidation extends t.ZodType>(
   singleRow: TValidation,
 ): t.ZodType<t.TypeOf<TValidation>> =>
@@ -17,11 +26,22 @@ export const one = <TValidation extends t.ZodType>(
         t.NEVER),
   );
 
+/**
+ * Creates `zod` validator which ensures that all rows of input array match given shape.
+ * @param singleRow The `zod` validator for row object.
+ * @returns The `zod` validator which takes an array of rows as input, and ensures that all array elements adher to given validator. The array length is not checked.
+ */
 export const many = <TValidation extends t.ZodType>(
   singleRow: TValidation,
 ): t.ZodType<Array<t.TypeOf<TValidation>>> =>
   t.array(singleRow).describe("Rows");
 
+/**
+ * Creates {@link input.SQLQueryExecutor}, which takes input from rows produced from another {@link input.SQLQueryExecutor} and validate them using the given `zod` validation.
+ * @param executor The {@link query.SQLQueryExecutor} which will provide the rows to validate.
+ * @param validation The `zod` validation, typically obtained via {@link one} or {@link many}.
+ * @returns The {@link input.SQLQueryExecutor}, which takes input from rows produced from another {@link input.SQLQueryExecutor} and validate them using the given `zod` validation.
+ */
 export const validateRows = <
   TClient,
   TParameters,

@@ -1,3 +1,7 @@
+/**
+ * @file This file contains unit tests for functionality in file `../maybe-file.ts`.
+ */
+
 import test, { ExecutionContext } from "ava";
 import * as fs from "fs/promises";
 import * as spec from "../maybe-file";

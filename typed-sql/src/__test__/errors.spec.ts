@@ -1,6 +1,10 @@
+/**
+ * @file This file contains unit tests for functionality in file `../errors.ts`.
+ */
+
 import test from "ava";
-import * as spec from "../errors";
 import * as t from "zod";
+import * as spec from "../errors";
 
 test("Validate that isDuplicateSQLParameterNameError method works", (c) => {
   c.plan(5);
@@ -50,6 +54,29 @@ test("Validate that isInvalidSQLTemplateArgumentError method works", (c) => {
     ),
   );
   c.false(spec.isInvalidSQLTemplateArgumentError(new Error()));
+});
+
+test("Validate that isSQLQueryValidationError method works", (c) => {
+  c.plan(5);
+  c.true(
+    spec.isSQLQueryValidationError(
+      new spec.SQLQueryInputValidationError(error),
+    ),
+  );
+  c.false(
+    spec.isSQLQueryValidationError(
+      new spec.DuplicateSQLParameterNameError("parameterName"),
+    ),
+  );
+  c.false(
+    spec.isSQLQueryValidationError(new spec.InvalidSQLTemplateArgumentError(0)),
+  );
+  c.true(
+    spec.isSQLQueryValidationError(
+      new spec.SQLQueryOutputValidationError(error),
+    ),
+  );
+  c.false(spec.isSQLQueryValidationError(new Error()));
 });
 
 test("Validate that isSQLQueryInputValidationError method works", (c) => {
