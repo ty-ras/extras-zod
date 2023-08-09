@@ -37,7 +37,6 @@ jobs:
       matrix:
         dir:
         - config
-        - state
         - typed-sql
     runs-on: ubuntu-latest
     name: Build and test ${{ matrix.dir }}
